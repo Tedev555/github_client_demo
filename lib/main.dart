@@ -3,6 +3,7 @@ import 'package:github/github.dart';
 
 import 'github_oauth_credentials.dart';
 import 'src/github_login.dart';
+import 'package:window_to_front/window_to_front.dart';
 
 void main() {
   runApp(const MyApp());
@@ -32,6 +33,7 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return GithubLoginWidget(
       builder: (context, httpClient) {
+        WindowToFront.activate();
         return FutureBuilder<CurrentUser>(
           future: viewerDetail(httpClient.credentials.accessToken),
           builder: (context, snapshot) {
