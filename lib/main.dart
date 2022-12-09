@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:github/github.dart';
+import 'package:github_client/src/github_summary.dart';
 
 import 'github_oauth_credentials.dart';
 import 'src/github_login.dart';
@@ -41,12 +42,8 @@ class MyHomePage extends StatelessWidget {
               appBar: AppBar(
                 title: Text(title),
               ),
-              body: Center(
-                child: Text(
-                  snapshot.hasData
-                      ? 'Hello ${snapshot.data!.login}!'
-                      : 'Retrieving viewer login details...',
-                ),
+              body: GitHubSummary(
+                gitHub: _getGitHub(httpClient.credentials.accessToken),
               ),
             );
           },
@@ -62,4 +59,8 @@ class MyHomePage extends StatelessWidget {
 Future<CurrentUser> viewerDetail(String accessToken) async {
   final gitHub = GitHub(auth: Authentication.withToken(accessToken));
   return gitHub.users.getCurrentUser();
+}
+
+GitHub _getGitHub(String accessToken) {
+  return GitHub(auth: Authentication.withToken(accessToken));
 }
